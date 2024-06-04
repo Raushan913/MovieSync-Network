@@ -1,12 +1,10 @@
 const apiKey = "c1867447"; // OMDb API Key
 const baseAPIURL = "http://www.omdbapi.com/";
-const imgURL = "https://image.tmdb.org/t/p/w1280"; // OMDb doesn't have its own image URL, but TMDb image URL can be used if available.
 const form = document.getElementById("search-form");
 const query = document.getElementById("query");
 const root = document.getElementById("root");
 
-let movies = [],
-    page = 1,
+let page = 1,
     inSearchPage = false;
 
 // Fetch JSON data from URL
@@ -33,10 +31,10 @@ const fetchAndShowResults = async (URL, append = false) => {
 };
 
 const getSpecificPage = (page) => {
-    // OMDb API does not support pagination in the same way as TMDb
-    const URL = `${baseAPIURL}?s=movie&apikey=${apiKey}&page=${page}`;
+    const searchTerm = query.value || "movie"; // Default search term if none provided
+    const URL = `${baseAPIURL}?s=${searchTerm}&apikey=${apiKey}&page=${page}`;
     fetchAndShowResults(URL, true);
-};
+}
 
 const movieCard = (movie) =>
     `<div class="col">
@@ -55,51 +53,46 @@ const movieCard = (movie) =>
                 </div>
               </div>
               <div class="describe">
-                ${movie.Plot || "No overview yet..."}
+                ${movie.Type}
               </div>
             </div>
           </div>
-        </div>`;
+        </div>`
 
 const showResults = (items, append = false) => {
     let content = append ? root.innerHTML : "";
-    items.forEach((item) => {
-        let { Poster, Title, Year, Plot } = item;
-
-        Poster = Poster !== "N/A" ? Poster : "./img-01.jpeg";
-        Title = Title.length > 15 ? Title.slice(0, 15) + "..." : Title;
-        Plot = Plot || "No overview yet...";
-        Year = Year || "No release date";
-
-        const movieItem = { Poster, Title, Year, Plot };
-        content += movieCard(movieItem);
-    });
-
+    if (items && items.length > 0) {
+        items.forEach((item) => {
+            content += movieCard(item);
+        });
+    } else {
+        content += "<p>Something went wrong!</p>";
+    }
     root.innerHTML = content; // Inject content to root
-};
-
-const showError = (message) => {
-    root.innerHTML = `<p>${message}</p>`;
-};
+}
 
 const handleLoadMore = () => {
     getSpecificPage(++page);
-};
+}
 
-const detectEndAndLoadMore = () => {
+const detectEndAndLoadMore = (e) => {
     let el = document.documentElement;
-    if (!inSearchPage && el.scrollTop + el.clientHeight === el.scrollHeight) {
+    if (
+        !inSearchPage &&
+        el.scrollTop + el.clientHeight == el.scrollHeight
+    ) {
+        console.log("BINGO!");
         handleLoadMore();
     }
-};
+}
 
 form.addEventListener("submit", async (e) => {
     inSearchPage = true;
     e.preventDefault();
+    page = 1; // Reset page number on new search
     const searchTerm = query.value;
     if (searchTerm) {
-        page = 1; // Reset page number on new search
-        const searchURL = `${baseAPIURL}?s=${searchTerm}&apikey=${apiKey}&page=${page}`;
+        const searchURL = `${baseAPIURL}?s=${searchTerm}&apikey=${apiKey}&page=1`;
         fetchAndShowResults(searchURL);
         query.value = "";
     }
@@ -113,8 +106,3 @@ function init() {
 }
 
 init();
-
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log("User signed in:", profile.getName());
-}

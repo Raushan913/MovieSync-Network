@@ -1,22 +1,16 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
-
-    <title>Movie</title>
+    <title>MovieSync</title>
 </head>
-
 <body>
     <div class="wrapper">
         <div class="search-block">
             <a href="/">
-                <h1>TheMovieDB</h1>
+                <h1>MovieSync</h1>
             </a>
             <form id="search-form">
                 <input type="text" id="query" placeholder="Search movies..." />
@@ -25,13 +19,11 @@
         </div>
         <div class="row" id="root"></div>
     </div>
-
-    <!-- Google Sign-In Integration -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
-
-    <!-- Your JavaScript -->
     <script src="script.js"></script>
+    <script>
+        if(localStorage.getItem('loggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
-
 </html>

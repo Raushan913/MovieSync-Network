@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+body {
+    color: white;
+    font-family: "microsoft yahei", arial, -apple-system, BlinkMacSystemFont,
+      "segoe ui", roboto, oxygen, cantarell, "helvetica neue", ubuntu, sans-serif;
+    background: #080823;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-wrapper {
+    background: #101528;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.login-wrapper h1 {
+    margin-bottom: 20px;
+}
+
+.login-wrapper input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-wrapper .btn {
+    width: 100%;
+    padding: 10px;
+    background: #06c3dd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+}
+
+.login-wrapper .btn:hover {
+    background: #05a9c2;
+}
+
+.login-wrapper p {
+    margin-top: 10px;
+}
+
+.login-wrapper a {
+    color: #06c3dd;
+}
