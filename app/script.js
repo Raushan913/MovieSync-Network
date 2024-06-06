@@ -3,6 +3,8 @@ const baseAPIURL = "http://www.omdbapi.com/";
 const form = document.getElementById("search-form");
 const query = document.getElementById("query");
 const root = document.getElementById("root");
+const player = videojs('movie-player');
+const movieSource = document.getElementById('movie-source');
 
 let page = 1,
     inSearchPage = false;
@@ -38,26 +40,27 @@ const getSpecificPage = (page) => {
 
 const movieCard = (movie) =>
     `<div class="col">
-          <div class="card">
+        <div class="card">
             <a class="card-media" href="${movie.Poster}" target="_blank">
-              <img src="${movie.Poster}" alt="${movie.Title}" width="100%" />
+                <img src="${movie.Poster}" alt="${movie.Title}" width="100%" />
             </a>
             <div class="card-content">
-              <div class="card-cont-header">
-                <div class="cont-left">
-                  <h3 style="font-weight: 600">${movie.Title}</h3>
-                  <span style="color: #12efec">${movie.Year}</span>
+                <div class="card-cont-header">
+                    <div class="cont-left">
+                        <h3 style="font-weight: 600">${movie.Title}</h3>
+                        <span style="color: #12efec">${movie.Year}</span>
+                    </div>
+                    <div class="cont-right">
+                        <button class="btn" onclick="playMovie('${movie.imdbID}')">Play</button>
+                    </div>
                 </div>
-                <div class="cont-right">
-                  <a href="${movie.Poster}" target="_blank" class="btn">See image</a>
+                <div class="describe">
+                    ${movie.Type}
                 </div>
-              </div>
-              <div class="describe">
-                ${movie.Type}
-              </div>
             </div>
-          </div>
-        </div>`
+        </div>
+    </div>`;
+
 
 const showResults = (items, append = false) => {
     let content = append ? root.innerHTML : "";
@@ -99,6 +102,19 @@ form.addEventListener("submit", async (e) => {
 });
 
 window.addEventListener("scroll", detectEndAndLoadMore);
+
+async function playMovie(movieId) {
+    try {
+        const response = await fetch(`/play/${movieId}`);
+        const streamUrl = await response.text();
+        movieSource.src = streamUrl;
+        player.src({ type: 'application/x-mpegURL', src: streamUrl });
+        player.load();
+        player.play();
+    } catch (error) {
+        console.error("Error fetching movie stream URL:", error);
+    }
+}
 
 function init() {
     inSearchPage = false;
