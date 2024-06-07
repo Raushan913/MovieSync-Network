@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <title>Movie Player - MovieSync</title>
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="video-container">
+        <video id="video-player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264">
+            <source src="" type="video/mp4">
+        </video>
+    </div>
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const title = urlParams.get('title');
+            const cloudFrontDomain = 'https://drytiq02uxt9a.cloudfront.net';
+            
+            if (title) {
+                const videoSrc = `${cloudFrontDomain}/${encodeURIComponent(title)}.mp4`;
+                const player = videojs('video-player');
+                player.src({ type: 'video/mp4', src: videoSrc });
+            } else {
+                alert('No movie title provided!');
+            }
+        });
+    </script>
+</body>
+</html>

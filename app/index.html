@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
-    <link href="https://vjs.zencdn.net/7.14.3/video-js.css" rel="stylesheet" />
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
     <title>MovieSync</title>
 </head>
 <body>
@@ -19,11 +20,12 @@
             </form>
         </div>
         <div class="row" id="root"></div>
-        <video id="movie-player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264">
-            <source id="movie-source" src="" type="application/x-mpegURL" />
+    </div>
+    <div class="video-container" id="video-container" style="display: none;">
+        <video id="video-player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264">
+            <source id="movie-source" src="" type="video/mp4">
         </video>
     </div>
-    <script src="https://vjs.zencdn.net/7.14.3/video.min.js"></script>
     <script src="script.js"></script>
     <script>
         if(localStorage.getItem('loggedIn') !== 'true') {

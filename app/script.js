@@ -3,8 +3,6 @@ const baseAPIURL = "http://www.omdbapi.com/";
 const form = document.getElementById("search-form");
 const query = document.getElementById("query");
 const root = document.getElementById("root");
-const player = videojs('movie-player');
-const movieSource = document.getElementById('movie-source');
 
 let page = 1,
     inSearchPage = false;
@@ -51,7 +49,7 @@ const movieCard = (movie) =>
                         <span style="color: #12efec">${movie.Year}</span>
                     </div>
                     <div class="cont-right">
-                        <button class="btn" onclick="playMovie('${movie.imdbID}')">Play</button>
+                        <a class="btn" href="player.html?title=${encodeURIComponent(movie.Title)}">Play</a>
                     </div>
                 </div>
                 <div class="describe">
@@ -59,8 +57,7 @@ const movieCard = (movie) =>
                 </div>
             </div>
         </div>
-    </div>`;
-
+    </div>`
 
 const showResults = (items, append = false) => {
     let content = append ? root.innerHTML : "";
@@ -102,19 +99,6 @@ form.addEventListener("submit", async (e) => {
 });
 
 window.addEventListener("scroll", detectEndAndLoadMore);
-
-async function playMovie(movieId) {
-    try {
-        const response = await fetch(`/play/${movieId}`);
-        const streamUrl = await response.text();
-        movieSource.src = streamUrl;
-        player.src({ type: 'application/x-mpegURL', src: streamUrl });
-        player.load();
-        player.play();
-    } catch (error) {
-        console.error("Error fetching movie stream URL:", error);
-    }
-}
 
 function init() {
     inSearchPage = false;

@@ -150,3 +150,24 @@ a {
   color: white;
   text-decoration: none;
 }
+
+.video-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #080823;
+}
+
+.video-js .vjs-control-bar {
+  background-color: #06c3dd !important;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #080823;
+}
+
