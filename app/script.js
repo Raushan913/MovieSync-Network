@@ -1,4 +1,4 @@
-const apiKey = "c1867447"; // OMDb API Key
+const apiKey = "Your API Key"; // OMDb API Key
 const baseAPIURL = "http://www.omdbapi.com/";
 const form = document.getElementById("search-form");
 const query = document.getElementById("query");
